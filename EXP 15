@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <string.h>
+
+#define ALPHABET_SIZE 26
+
+// Function to encrypt the plaintext using the substitution cipher
+void encrypt(char plaintext[], char ciphertext[], char substitution_key[]) {
+    int i;
+    for (i = 0; plaintext[i] != '\0'; i++) {
+        // Only encrypt alphabetic characters
+        if (plaintext[i] >= 'A' && plaintext[i] <= 'Z') {
+            ciphertext[i] = substitution_key[plaintext[i] - 'A'];
+        } else if (plaintext[i] >= 'a' && plaintext[i] <= 'z') {
+            ciphertext[i] = substitution_key[plaintext[i] - 'a'] + 'a' - 'A';
+        } else {
+            ciphertext[i] = plaintext[i];
+        }
+    }
+    ciphertext[i] = '\0'; // Null-terminate the ciphertext
+}
+
+int main() {
+    char plaintext[256];
+    char ciphertext[256];
+    
+    // Define the substitution key (this is a simple example, a real key should be more complex)
+    char substitution_key[ALPHABET_SIZE] = {
+        'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
+        'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z',
+        'X', 'C', 'V', 'B', 'N', 'M'
+    };
+    
+    // Get the plaintext input from the user
+    printf("Enter the plaintext: ");
+    fgets(plaintext, sizeof(plaintext), stdin);
+    
+    // Remove the newline character from the end of the input string if present
+    plaintext[strcspn(plaintext, "\n")] = '\0';
+    
+    // Encrypt the plaintext
+    encrypt(plaintext, ciphertext, substitution_key);
+    
+    // Print the resulting ciphertext
+    printf("Ciphertext: %s\n", ciphertext);
+    
+    return 0;
+}
